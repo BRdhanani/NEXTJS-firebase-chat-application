@@ -3,7 +3,7 @@
 This chat application is deployed on vercel account. Below is the url for an application.
 https://nextjs-firebase-chat-application.vercel.app/
 
-## About:
+## About
 This is a real-time chat application built using NEXTJS as front end and firebase as Backend.
 
 Users are able to message other users in real-time.
