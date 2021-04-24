@@ -1,6 +1,8 @@
 # NEXTJS-firebase-chat-application
 
-This chat application is deployed on vercel account. Below is the url for an application.
+This chat application is deployed on vercel account.
+
+Below is the url for an application.
 https://nextjs-firebase-chat-application.vercel.app/
 
 ## About
