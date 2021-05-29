@@ -14,3 +14,37 @@ a {
 * {
   box-sizing: border-box;
 }
+
+#__next.black,
+#__next.black button,
+#__next.black input,
+#__next.black input::placeholder,
+#__next.black div {
+  background-color: #15202b;
+  color: white;
+}
+
+#__next.black p {
+  color: white;
+  margin-bottom: 0;
+}
+
+#__next.black .chat p {
+  background-color: #0064c7;
+}
+
+#__next.black .chat p span {
+  color: white;
+}
+
+#__next.black form {
+  background-color: #15202b;
+}
+
+section {
+  z-index: 1;
+}
+
+#__next.black section span {
+  background-color: #15202b;
+}

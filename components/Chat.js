@@ -6,7 +6,7 @@ import { auth, db } from "../firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useRouter } from "next/router";
 
-function Chat({ id, users }) {
+function Chat({ id, users, darkMode }) {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const recepientEmail = getEmail(users, user);
@@ -21,7 +21,9 @@ function Chat({ id, users }) {
   return (
     <Container
       onClick={enterChat}
-      className={router.query.id == id ? "selected" : ""}
+      className={`${darkMode && "dark"} ${
+        router.query.id == id ? "selected" : ""
+      }`}
     >
       {recepient ? (
         <UserAvatar src={recepient?.photoURL} />
@@ -49,6 +51,16 @@ const Container = styled.div`
 
   &.selected {
     background-color: #e9eaeb;
+  }
+
+  &.dark {
+    :hover {
+      background-color: #0064c7;
+    }
+
+    &.selected {
+      background-color: #0064c7;
+    }
   }
 `;
 

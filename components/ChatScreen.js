@@ -17,7 +17,7 @@ import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 import OutsideClickHandler from "react-outside-click-handler";
 
-function ChatScreen({ chat, messages }) {
+function ChatScreen({ chat, messages, className }) {
   const [user] = useAuthState(auth);
   const [input, setInput] = useState("");
   const router = useRouter();
@@ -108,7 +108,6 @@ function ChatScreen({ chat, messages }) {
 
   return (
     <Container>
-      {console.log(openEmoji)}
       {openEmoji && (
         <OutsideClickHandler
           onOutsideClick={() => {
@@ -121,7 +120,7 @@ function ChatScreen({ chat, messages }) {
           />
         </OutsideClickHandler>
       )}
-      <Header>
+      <Header className={className}>
         {recepient ? (
           <Avatar src={recepient?.photoURL} />
         ) : (
@@ -163,16 +162,20 @@ function ChatScreen({ chat, messages }) {
           </IconButton>
         </HeaderIcons>
       </Header>
-      <MessageContainer>
+      <MessageContainer className="chat">
         {loopMessages()}
         <EndOfMessage ref={messageRef} />
       </MessageContainer>
-      <InputContainer>
+      <InputContainer className={className}>
         <InsertEmoticonIcon
           onClick={() => setOpenEmoji(true)}
           style={{ cursor: "pointer" }}
         />
-        <Input value={input} onChange={(e) => setInput(e.target.value)} />
+        <Input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Enter your message here"
+        />
         <button hidden disabled={!input} type="submit" onClick={sendMessage}>
           Send Message
         </button>
@@ -195,6 +198,9 @@ const Header = styled.div`
   height: 80px;
   align-items: center;
   border-bottom: 1px solid whitesmoke;
+  &.dark {
+    background-color: #15202b;
+  }
 `;
 
 const HeaderInformation = styled.div`
@@ -221,6 +227,15 @@ const MessageContainer = styled.div`
   padding: 30px;
   background-color: #e5ded8;
   min-height: 90vh;
+  &.dark {
+    background-color: #15202b;
+    p {
+      background-color: #0064c7;
+      span {
+        color: white;
+      }
+    }
+  }
 `;
 
 const InputContainer = styled.form`
@@ -231,6 +246,9 @@ const InputContainer = styled.form`
   bottom: 0;
   background-color: white;
   z-index: 100;
+  &.dark {
+    background-color: #15202b;
+  }
 `;
 
 const Input = styled.input`

@@ -1,5 +1,12 @@
 import styled from "styled-components";
-import { Avatar, IconButton, Button, Menu, MenuItem } from "@material-ui/core";
+import {
+  Avatar,
+  IconButton,
+  Button,
+  Menu,
+  MenuItem,
+  Switch,
+} from "@material-ui/core";
 import ChatIcon from "@material-ui/icons/Chat";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import SearchIcon from "@material-ui/icons/Search";
@@ -8,7 +15,9 @@ import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Chat from "./Chat";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import WbSunnyIcon from "@material-ui/icons/WbSunny";
+import Brightness2Icon from "@material-ui/icons/Brightness2";
 
 function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -39,9 +48,20 @@ function Sidebar() {
       (chat) => chat.data().users.find((user) => user == email)?.length > 0
     );
 
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    darkMode
+      ? document.getElementById("__next").classList.add("black")
+      : document.getElementById("__next").classList.remove("black");
+    darkMode
+      ? localStorage.setItem("dark", true)
+      : localStorage.setItem("dark", false);
+    darkMode ? console.log("dark", true) : console.log("dark", false);
+  }, [darkMode]);
   return (
     <Container>
-      <Header>
+      <Header className={darkMode && "dark"}>
         <UserAvatar
           src={user?.photoURL}
           onClick={(e) => {
@@ -73,8 +93,35 @@ function Sidebar() {
       </Search>
       <SidebarButton onClick={createChat}>Start a new chat</SidebarButton>
       {chatsSnapshot?.docs?.map((chat) => (
-        <Chat key={chat.id} id={chat.id} users={chat.data().users} />
+        <Chat
+          key={chat.id}
+          id={chat.id}
+          users={chat.data().users}
+          darkMode={darkMode}
+        />
       ))}
+      <WbSunnyIcon
+        style={{
+          position: "absolute",
+          bottom: "7px",
+          left: "2%",
+          color: darkMode ? "white" : "black",
+        }}
+      />
+      <SwitchContainer
+        checked={darkMode}
+        onChange={() => setDarkMode(!darkMode)}
+        color="primary"
+        className={darkMode ? "dark" : "light"}
+      />
+      <Brightness2Icon
+        style={{
+          position: "absolute",
+          bottom: "7px",
+          left: "11%",
+          color: darkMode ? "white" : "black",
+        }}
+      />
     </Container>
   );
 }
@@ -107,6 +154,9 @@ const Header = styled.div`
   padding: 15px;
   height: 80px;
   border-bottom: 1px solid whitesmoke;
+  &.dark {
+    background-color: #15202b;
+  }
 `;
 
 const UserAvatar = styled(Avatar)`
@@ -137,5 +187,27 @@ const SidebarButton = styled(Button)`
   &&& {
     border-top: 1px solid whitesmoke;
     border-borrom: 1px solid whitesmoke;
+  }
+`;
+
+const SwitchContainer = styled(Switch)`
+  position: absolute !important;
+  bottom: 0;
+  left: 5%;
+  &.light {
+    .MuiButtonBase-root {
+      color: #15202b;
+    }
+    .MuiSwitch-track {
+      background-color: #15202b;
+    }
+  }
+  &.dark {
+    .MuiButtonBase-root {
+      color: white;
+    }
+    .MuiSwitch-track {
+      background-color: white !important;
+    }
   }
 `;
